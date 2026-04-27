@@ -1,0 +1,42 @@
+---
+title: "Robbin APIs"
+description: "Documentação das APIs públicas e internas da Robbin"
+---
+
+A Robbin expõe duas APIs documentadas neste site:
+
+<Columns cols={2}>
+  <Card
+    title="API de Parceiros"
+    icon="handshake"
+    href="/partner/introduction"
+  >
+    Integração com parceiros externos da Robbin. Use esta API se você é um parceiro
+    (Cantu, Chilli, Moura, etc.) ou está construindo uma integração com a Robbin.
+  </Card>
+  <Card
+    title="API de Backoffice"
+    icon="building"
+    href="/internal/introduction"
+  >
+    API interna usada pelas telas de backoffice da Robbin. Pública por enquanto,
+    mas voltada exclusivamente a times internos.
+  </Card>
+</Columns>
+
+## Como usar esta documentação
+
+Cada API tem seu próprio dropdown no menu superior, com:
+
+- **Documentação** — guias conceituais, autenticação, quickstart e changelog escritos à mão.
+- **Referência da API** — gerada automaticamente a partir do OpenAPI de cada BFF.
+
+<Note>
+  Não confunda com o `bff-app` (usado pelo aplicativo mobile da Robbin). Esse BFF
+  **não** é documentado aqui.
+</Note>
+
+## Suporte
+
+- Parceiros: entrem em contato com seu gerente de integração na Robbin.
+- Times internos: usem o canal `#api-platform` no Slack.

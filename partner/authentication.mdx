@@ -1,0 +1,77 @@
+---
+title: "Autenticação"
+description: "Como autenticar requisições na API de Parceiros"
+---
+
+A API de Parceiros usa **OAuth 2.0 Client Credentials**. Toda requisição a um
+endpoint protegido precisa de um Bearer token JWT no header `Authorization`:
+
+```http
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+## Obtendo um token
+
+Faça um `POST` para `/oauth/token` trocando seu `client_id` e `client_secret`
+por um access token:
+
+```bash
+curl -X POST "https://bff-partner.io.robbin.com.br/oauth/token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "SEU_CLIENT_ID",
+    "client_secret": "SEU_CLIENT_SECRET"
+  }'
+```
+
+Resposta:
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "scope": "..."
+}
+```
+
+| Campo | Descrição |
+|---|---|
+| `access_token` | JWT a ser enviado em `Authorization: Bearer ...` |
+| `token_type` | Sempre `Bearer` |
+| `expires_in` | Tempo de vida do token em segundos |
+| `scope` | Escopos concedidos a este `client_id` (opcional) |
+
+## Expiração e renovação
+
+- Tokens expiram em **`expires_in` segundos** (tipicamente 1 hora).
+- O grant `client_credentials` **não retorna refresh token** (comportamento padrão do OAuth 2.0 para esse fluxo) — gere um novo access token via `/oauth/token` quando o atual expirar.
+- Cacheie o token no seu lado para não bater em `/oauth/token` a cada requisição.
+
+<Tip>
+  Renove o token de forma proativa **antes** da expiração (ex.: 5 minutos antes)
+  para evitar janelas de erro 401 em produção.
+</Tip>
+
+## Escopos
+
+O campo `scope` na resposta de `/oauth/token` lista as permissões concedidas
+ao seu `client_id`. Os escopos são definidos em contrato e limitam:
+
+- Quais endpoints o `client_id` pode chamar.
+- Quais recursos (parceiros, produtos, CNPJs) ele pode acessar.
+
+{/* TODO: o time do bff-partner pode publicar o catálogo de escopos disponíveis nesta página quando estabilizar. */}
+
+## Erros comuns
+
+| Status | Significado | O que fazer |
+|---|---|---|
+| `400 Bad Request` | Body do `/oauth/token` malformado (ex.: `grant_type` inválido) | Confira o payload contra o schema |
+| `401 Unauthorized` | Credenciais inválidas, token ausente ou expirado | Gere um novo token |
+| `403 Forbidden` | Token válido, mas sem escopo para o recurso | Verifique seu contrato com a Robbin |
+| `429 Too Many Requests` | Rate limit excedido | Aplique backoff exponencial |
+
+Para detalhes do schema de cada erro, veja [`ErrorsSchema`](/partner) na
+referência da API.

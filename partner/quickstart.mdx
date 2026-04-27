@@ -1,0 +1,90 @@
+---
+title: "Quickstart"
+description: "Faça sua primeira chamada à API de Parceiros em poucos minutos"
+---
+
+Este guia mostra os passos mínimos para sair do zero a uma resposta válida da
+API de Parceiros.
+
+## 1. Obtenha suas credenciais
+
+Credenciais são entregues pelo time de integração da Robbin no fim do processo
+de onboarding comercial. Você receberá:
+
+- Um **`client_id`** e um **`client_secret`** — usados para gerar tokens.
+- O catálogo de **endpoints e escopos** liberados para o seu contrato.
+
+<Warning>
+  Nunca commite credenciais no seu repositório. Use variáveis de ambiente ou um
+  cofre de segredos (AWS Secrets Manager, GCP Secret Manager, Vault, etc).
+</Warning>
+
+## 2. Conheça os ambientes
+
+| Ambiente | URL base |
+|---|---|
+| Produção | `https://bff-partner.io.robbin.com.br` |
+
+{/* TODO: documentar URL de sandbox quando o time confirmar se existe um host separado para homologação. */}
+
+## 3. Gere um access token
+
+A API usa **OAuth 2.0 Client Credentials**. Troque suas credenciais por um
+token JWT:
+
+```bash
+curl -X POST "https://bff-partner.io.robbin.com.br/oauth/token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "SEU_CLIENT_ID",
+    "client_secret": "SEU_CLIENT_SECRET"
+  }'
+```
+
+Resposta:
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "scope": "..."
+}
+```
+
+Detalhes completos em [Autenticação](/partner/authentication).
+
+## 4. Faça sua primeira request autenticada
+
+Use o `access_token` no header `Authorization` em qualquer endpoint protegido.
+Exemplo:
+
+```bash
+curl -X GET "https://bff-partner.io.robbin.com.br/api/v1/dashboards/home" \
+  -H "Authorization: Bearer SEU_ACCESS_TOKEN"
+```
+
+<Tip>
+  Veja o catálogo completo de endpoints disponíveis para você na
+  [Referência da API](/partner). Os endpoints visíveis dependem do seu contrato.
+</Tip>
+
+## Próximos passos
+
+<Columns cols={2}>
+  <Card
+    title="Autenticação"
+    icon="key"
+    href="/partner/authentication"
+  >
+    Detalhes do fluxo OAuth e gerenciamento de tokens.
+  </Card>
+  <Card
+    title="Referência da API"
+    icon="terminal"
+    href="/partner"
+  >
+    Catálogo completo de endpoints.
+  </Card>
+</Columns>

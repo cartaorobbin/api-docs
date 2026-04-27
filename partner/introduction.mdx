@@ -1,0 +1,46 @@
+---
+title: "Visão geral"
+description: "API de Parceiros da Robbin — para integrar produtos e serviços externos"
+---
+
+A **API de Parceiros** (`bff-partner`) é a porta de entrada para empresas que
+querem oferecer produtos da Robbin aos seus clientes ou enriquecer seus próprios
+fluxos com dados e operações da Robbin.
+
+## O que você consegue fazer
+
+- Consultar e operar produtos disponibilizados pela Robbin ao parceiro.
+- Submeter eventos e atualizações relevantes ao ciclo de vida do cliente.
+- Consultar status de operações iniciadas pela sua plataforma.
+
+<Note>
+  O catálogo exato de endpoints depende do contrato comercial firmado com cada
+  parceiro. Use a [Referência da API](/partner) para ver todos os endpoints
+  disponíveis.
+</Note>
+
+## Fluxo típico de integração
+
+1. **Onboarding comercial** — um contrato é assinado e seu time recebe credenciais de sandbox.
+2. **Implementação em sandbox** — você implementa a integração e testa contra o ambiente de sandbox.
+3. **Homologação** — a Robbin valida casos de teste com seu time.
+4. **Go-live** — credenciais de produção são liberadas.
+
+## Próximos passos
+
+<Columns cols={2}>
+  <Card
+    title="Autenticação"
+    icon="key"
+    href="/partner/authentication"
+  >
+    Como autenticar suas requisições.
+  </Card>
+  <Card
+    title="Quickstart"
+    icon="rocket"
+    href="/partner/quickstart"
+  >
+    Faça sua primeira chamada à API em poucos minutos.
+  </Card>
+</Columns>

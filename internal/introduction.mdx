@@ -1,0 +1,37 @@
+---
+title: "Visão geral"
+description: "API de Backoffice da Robbin — para uso interno"
+---
+
+A **API de Backoffice** (`bff-backoffice`) atende as telas internas usadas pelos
+times de operações, suporte, risco, financeiro e produto.
+
+<Warning>
+  Esta API é **interna**. Embora o site esteja público hoje (limitação do plano
+  grátis do Mintlify), ela não deve ser consumida por sistemas externos. Veja
+  os planos futuros na [seção 4 do PRD](https://github.com/cartaorobbin/api-docs/blob/main/prd.md).
+</Warning>
+
+## Para quem é
+
+Times internos da Robbin que constroem ou consomem o backoffice:
+
+- Frontend do backoffice
+- Squads que precisam expor novas telas/operações
+- SRE/Platform durante incident response
+
+## Ambientes
+
+| Ambiente | URL base |
+|---|---|
+| Local | `http://localhost:8000` |
+| Staging | `https://staging.api.backoffice.robbin.com.br` |
+| Produção | `https://api.backoffice.robbin.com.br` |
+
+<Note>
+  URLs são placeholders. Confirme no `cartaorobbin/bff-backoffice` antes de usar.
+</Note>
+
+## Como rodar local
+
+Veja o `README.md` do repo `cartaorobbin/bff-backoffice` para instruções de setup.

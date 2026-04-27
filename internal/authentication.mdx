@@ -1,0 +1,35 @@
+---
+title: "Autenticação"
+description: "Como autenticar no bff-backoffice"
+---
+
+{/* TODO: confirmar com o time de plataforma o modelo de auth real (Cognito? Auth0? SSO interno?) e atualizar. */}
+
+A API de Backoffice usa o **SSO corporativo** da Robbin. O fluxo padrão é:
+
+1. Usuário autentica no provider de identidade (SSO).
+2. Frontend recebe um **JWT** com claims de identidade e grupos.
+3. JWT é enviado no header `Authorization: Bearer ...` em cada chamada ao `bff-backoffice`.
+
+```http
+Authorization: Bearer <jwt-corporativo>
+```
+
+## Autorização
+
+A autorização é feita por **grupos do SSO**. Cada endpoint do `bff-backoffice`
+declara quais grupos têm acesso. Se o JWT não pertencer a nenhum grupo
+autorizado, a resposta é `403 Forbidden`.
+
+## Service-to-service
+
+Para chamadas internas entre serviços (sem usuário humano), use o fluxo de
+**service account** com mTLS dentro da VPC. Detalhes no repo
+`cartaorobbin/bff-backoffice`.
+
+## Erros
+
+| Status | Significado |
+|---|---|
+| `401 Unauthorized` | JWT ausente, inválido ou expirado |
+| `403 Forbidden` | JWT válido, mas usuário não tem o grupo necessário |
